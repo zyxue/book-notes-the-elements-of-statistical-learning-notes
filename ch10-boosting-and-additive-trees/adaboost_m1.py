@@ -81,7 +81,7 @@ class AdaBoostM1Classifier:
         else:
             assert use_n_learners <= len(
                 self.learners
-            ), f"you can only use at most len(self.learners) learners"
+            ), f"you can only use at most {len(self.learners)} learners"
 
         scaled_predictions_per_learner = []
         for k, (alpha, learner) in enumerate(zip(self.alphas, self.learners)):
@@ -110,7 +110,6 @@ def adaboost_m1(
 
     """
     num_instances = len(instances)
-    num_learners = 400
 
     # initial sample weights
     weights = np.repeat(1 / len(instances), num_instances)
