@@ -72,8 +72,14 @@ def visualize_training_data(
 
 
 class GradientBoostingRegressor:
-    def __init__(self, learning_rate: float, n_estimators: int) -> None:
+    def __init__(
+        self,
+        learning_rate: float,
+        n_estimators: int,
+        max_depth: int,
+    ) -> None:
         self._learning_rate = learning_rate
+        self._max_depth = max_depth
         self._n_estimators = n_estimators
 
         self._reset()
@@ -81,6 +87,10 @@ class GradientBoostingRegressor:
     @property
     def learning_rate(self) -> float:
         return self._learning_rate
+
+    @property
+    def max_depth(self) -> int:
+        return self._max_depth
 
     @property
     def n_estimators(self) -> int:
@@ -109,7 +119,7 @@ class GradientBoostingRegressor:
             preds_val = np.zeros(len(X_val))
 
         for k in iterator:
-            estimator = sklearn.tree.DecisionTreeRegressor(max_depth=1)
+            estimator = sklearn.tree.DecisionTreeRegressor(max_depth=self.max_depth)
             estimator.fit(X, residuals)
             self.estimators.append(estimator)
             preds += self._learning_rate * estimator.predict(X)
